@@ -45,3 +45,8 @@
 
 ##Android Studio快速集成
 
+dependencies {
+    ...
+    compile 'com.kejiwen.securitykeyboard:securitykeyboardlibrary:1.0.0'
+
+}
