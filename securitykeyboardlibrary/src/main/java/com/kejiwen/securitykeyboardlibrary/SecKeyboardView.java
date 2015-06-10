@@ -1,12 +1,10 @@
-package com.kejiwen.securitykeyboard;
-
-import java.util.List;
+package com.kejiwen.securitykeyboardlibrary;
 
 import android.app.Activity;
 import android.content.Context;
 import android.inputmethodservice.Keyboard;
-import android.inputmethodservice.KeyboardView;
 import android.inputmethodservice.Keyboard.Key;
+import android.inputmethodservice.KeyboardView;
 import android.inputmethodservice.KeyboardView.OnKeyboardActionListener;
 import android.text.Editable;
 import android.text.InputType;
@@ -15,6 +13,8 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import java.util.List;
 
 public class SecKeyboardView {
 
@@ -31,17 +31,17 @@ public class SecKeyboardView {
     private EditText ed;
 
 
-    public SecKeyboardView(Activity act, final EditText editText) {
+    public SecKeyboardView(Activity act, final EditText editText, KeyboardView keyboardView) {
 
         this.mActivity = act;
         this.ed = editText;
+        this.mKeyboardView = keyboardView;
 
         k1 = new Keyboard(mActivity, R.xml.qwerty);
         k2 = new Keyboard(mActivity, R.xml.symbols);
 
         mImm = (InputMethodManager) mActivity.getSystemService(Context.INPUT_METHOD_SERVICE);
 
-        mKeyboardView = (KeyboardView) mActivity.findViewById(R.id.keyboard_view);
         mKeyboardView.setKeyboard(k1);
         mKeyboardView.setEnabled(true);
         mKeyboardView.setPreviewEnabled(false);
