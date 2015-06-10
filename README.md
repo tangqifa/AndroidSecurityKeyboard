@@ -2,7 +2,6 @@
 ##简介
 
 在财经和银行类应用中，app通常会提供自己安全键盘，以防密码泄露；
-<img src="https://github.com/tangqifa/AndroidSecurityKeyboard/blob/master/Screenshot/Screenshot_20150610-022340.pngg" width = "300" height = "200" alt="图片名称" align=center />
 ![shot1](https://github.com/tangqifa/AndroidSecurityKeyboard/blob/master/Screenshot/Screenshot_20150610-022340.png "字母键盘")
 ![shot2](https://github.com/tangqifa/AndroidSecurityKeyboard/blob/master/Screenshot/Screenshot_20150610-022613.png "数字键盘")
 
