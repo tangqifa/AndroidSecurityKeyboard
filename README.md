@@ -40,11 +40,13 @@
 ### 第二步：在需要安全键盘的Activity或则Fragment的onCreate()方法或则onCreateView()方法中加入如下代码：
 
     KeyboardView mKeyboardView;
-    mKeyboardView =   (KeyboardView)findViewById(com.kejiwen.securitykeyboardlibrary.R.id.keyboard_view);
+    mKeyboardView =   (KeyboardView)findViewById(R.id.keyboard_view);
     new SecKeyboardView(this, mPassword,mKeyboardView);
 
 ##Android Studio快速集成
 
 dependencies {
-compile 'com.kejiwen.securitykeyboard:securitykeyboardlibrary:1.0.0'
+
+    compile 'com.kejiwen.securitykeyboard:securitykeyboardlibrary:1.0.0'
+    
    }
