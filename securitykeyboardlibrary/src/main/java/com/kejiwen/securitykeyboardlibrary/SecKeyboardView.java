@@ -18,31 +18,30 @@ import java.util.List;
 
 public class SecKeyboardView {
 
-    private Activity mActivity;
-
-    public boolean isNun = false;// 是否数据键盘
-    public boolean isUpper = false;// 是否大写
+    private boolean isUpper = false;// 是否大写
 
     private InputMethodManager mImm;
     private KeyboardView mKeyboardView;
-    private Keyboard k1;// 字母键盘
-    private Keyboard k2;// 数字键盘
+    private Keyboard alphabetKeyBoard;
+    private Keyboard numberKeyBoard;
+    private Keyboard symbolKeyBoard;
 
     private EditText ed;
 
 
     public SecKeyboardView(Activity act, final EditText editText, KeyboardView keyboardView) {
 
-        this.mActivity = act;
+        Activity activity = act;
         this.ed = editText;
         this.mKeyboardView = keyboardView;
 
-        k1 = new Keyboard(mActivity, R.xml.qwerty);
-        k2 = new Keyboard(mActivity, R.xml.symbols);
+        alphabetKeyBoard = new Keyboard(activity, R.xml.qwerty);
+        numberKeyBoard = new Keyboard(activity, R.xml.number);
+        symbolKeyBoard = new Keyboard(activity, R.xml.symbols);
 
-        mImm = (InputMethodManager) mActivity.getSystemService(Context.INPUT_METHOD_SERVICE);
+        mImm = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
 
-        mKeyboardView.setKeyboard(k1);
+        mKeyboardView.setKeyboard(alphabetKeyBoard);
         mKeyboardView.setEnabled(true);
         mKeyboardView.setPreviewEnabled(false);
         mKeyboardView.setOnKeyboardActionListener(listener);
@@ -102,6 +101,10 @@ public class SecKeyboardView {
     }
 
     private OnKeyboardActionListener listener = new OnKeyboardActionListener() {
+        private static final int CUSTOM_KEY_SYMBOL = -7;
+        private static final int CUSTOM_KEY_NUMBER = -8;
+        private static final int CUSTOM_KEY_ALPHABET = -9;
+
         @Override
         public void swipeUp() {
         }
@@ -135,36 +138,41 @@ public class SecKeyboardView {
         public void onKey(int primaryCode, int[] keyCodes) {
             Editable editable = ed.getText();
             int start = ed.getSelectionStart();
-            if (primaryCode == Keyboard.KEYCODE_CANCEL) {// 完成
-                hideKeyboard();
-            } else if (primaryCode == Keyboard.KEYCODE_DELETE) {// 回退
-                if (editable != null && editable.length() > 0) {
-                    if (start > 0) {
+            switch (primaryCode) {
+                case Keyboard.KEYCODE_DONE:
+                    hideKeyboard();
+                    break;
+                case Keyboard.KEYCODE_DELETE:
+                    if (editable != null && editable.length() > 0 & start > 0) {
                         editable.delete(start - 1, start);
                     }
-                }
-            } else if (primaryCode == Keyboard.KEYCODE_SHIFT) {// 大小写切换
-                changeKey();
-                mKeyboardView.setKeyboard(k1);
-
-            } else if (primaryCode == Keyboard.KEYCODE_MODE_CHANGE) {// 数字键盘切换
-                if (isNun) {
-                    isNun = false;
-                    mKeyboardView.setKeyboard(k1);
-                } else {
-                    isNun = true;
-                    mKeyboardView.setKeyboard(k2);
-                }
-            } else if (primaryCode == 57419) { // go left
-                if (start > 0) {
-                    ed.setSelection(start - 1);
-                }
-            } else if (primaryCode == 57421) { // go right
-                if (start < ed.length()) {
-                    ed.setSelection(start + 1);
-                }
-            } else {
-                editable.insert(start, Character.toString((char) primaryCode));
+                    break;
+                case Keyboard.KEYCODE_SHIFT:
+                    changeKey();
+                    mKeyboardView.setKeyboard(alphabetKeyBoard);
+                    break;
+                case CUSTOM_KEY_NUMBER:
+                    mKeyboardView.setKeyboard(numberKeyBoard);
+                    break;
+                case CUSTOM_KEY_ALPHABET:
+                    mKeyboardView.setKeyboard(alphabetKeyBoard);
+                    break;
+                case CUSTOM_KEY_SYMBOL:
+                    mKeyboardView.setKeyboard(symbolKeyBoard);
+                    break;
+                case Keyboard.EDGE_LEFT:
+                    if (start > 0) {
+                        ed.setSelection(start - 1);
+                    }
+                    break;
+                case Keyboard.EDGE_RIGHT:
+                    if (start < ed.length()) {
+                        ed.setSelection(start + 1);
+                    }
+                    break;
+                default:
+                    editable.insert(start, Character.toString((char) primaryCode));
+                    break;
             }
         }
     };
@@ -173,7 +181,7 @@ public class SecKeyboardView {
      * 键盘大小写切换
      */
     private void changeKey() {
-        List<Key> keyList = k1.getKeys();
+        List<Key> keyList = alphabetKeyBoard.getKeys();
         if (isUpper) {//大写切换小写
             isUpper = false;
             for (Key key : keyList) {
@@ -193,26 +201,22 @@ public class SecKeyboardView {
         }
     }
 
-    public void showKeyboard() {
+    private void showKeyboard() {
         int visibility = mKeyboardView.getVisibility();
         if (visibility == View.GONE || visibility == View.INVISIBLE) {
             mKeyboardView.setVisibility(View.VISIBLE);
         }
     }
 
-    public void hideKeyboard() {
+    private void hideKeyboard() {
         int visibility = mKeyboardView.getVisibility();
         if (visibility == View.VISIBLE) {
             mKeyboardView.setVisibility(View.INVISIBLE);
         }
     }
 
-    private boolean isWord(String str) {
-        String wordStr = "abcdefghijklmnopqrstuvwxyz";
-        if (wordStr.indexOf(str.toLowerCase()) > -1) {
-            return true;
-        }
-        return false;
+    private boolean isWord(String s) {
+        return s.toLowerCase().matches("[a-z]");
     }
 
 }

@@ -23,11 +23,11 @@
 ### 如果根布局不是RelativeLayout,则在底部加入如下代码：
 
     <RelativeLayout
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <android.inputmethodservice.KeyboardView
            android:id="@+id/keyboard_view"
-           android:layout_width="fill_parent"
+           android:layout_width="match_parent"
            android:layout_height="wrap_content"
            android:layout_alignParentBottom="true"
            android:focusable="true"

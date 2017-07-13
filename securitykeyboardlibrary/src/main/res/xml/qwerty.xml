@@ -108,13 +108,13 @@
     </Row>
     <Row android:rowEdgeFlags="bottom">
         <Key
-            android:codes="-2"
-            android:keyLabel="12#"
+            android:codes="-7"
+            android:keyLabel="!?#"
             android:keyWidth="20.000004%p" />
         <Key
-            android:codes="44"
-            android:keyLabel=","
-            android:keyWidth="14.999998%p" />
+            android:codes="-8"
+            android:keyLabel="123"
+            android:keyWidth="20%p" />
         <Key
             android:codes="32"
             android:isRepeatable="true"
@@ -125,9 +125,9 @@
             android:keyLabel="."
             android:keyWidth="14.999998%p" />
         <Key
-            android:codes="-3"
+            android:codes="-4"
             android:keyEdgeFlags="right"
             android:keyLabel="完成"
-            android:keyWidth="20.000004%p" />
+            android:keyWidth="20%p" />
     </Row>
 </Keyboard>
